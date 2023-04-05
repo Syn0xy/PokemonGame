@@ -1,8 +1,6 @@
 package src;
 
-import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
 
 public class Enemy extends Entity{
     private Pokemon pokemon;
@@ -21,17 +19,16 @@ public class Enemy extends Entity{
     public String getName(){ return this.pokemon.getName(); }
     public Image getImage(){
         Image img = pokemon.getImage()[0];
-        if(true) return img;
         if (direction == Direction.RIGHT){
-            img = flipImageHorizontally(img);
+            img = pokemon.getImage()[6];
         }
-        if (direction == Direction.LEFT){
+        else if (direction == Direction.LEFT){
             img = pokemon.getImage()[0];
         }
-        if (direction == Direction.UP){
+        else if (direction == Direction.UP){
             img = pokemon.getImage()[2];
         }
-        if (direction == Direction.DOWN){
+        else if (direction == Direction.DOWN){
             img = pokemon.getImage()[4];
         }
         return img;
@@ -48,24 +45,5 @@ public class Enemy extends Entity{
 
     public boolean nextMove(int x, int y){
         return EndlessTerrain.getBlock(x, y).height != 2;
-    }
-
-    public static Image flipImageVertically(Image img) {
-        int w = img.getWidth(null);
-        int h = img.getHeight(null);
-        BufferedImage bimg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g = bimg.createGraphics();
-        g.drawImage(img, 0, 0, w, h, 0, h, w, 0, null);
-        g.dispose();
-        return bimg;
-    }
-    public static Image flipImageHorizontally(Image img) {
-        int w = img.getWidth(null);
-        int h = img.getHeight(null);
-        BufferedImage bimg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g = bimg.createGraphics();
-        g.drawImage(img, 0, 0, w, h, w, 0, 0, h, null);
-        g.dispose();
-        return bimg;
     }
 }

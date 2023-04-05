@@ -103,7 +103,7 @@ public class TerrainChunk {
     public void generateObject(){
         for(int y = 0; y < tilemaps.length; y++){
             for(int x = 0; x < tilemaps[y].length; x++){
-                if(tilemaps[y][x].getBlock() == Block.LAND && random.nextDouble() > 0.995){
+                if(tilemaps[y][x].getBlock() == Block.LAND && random.nextDouble() > 0.998){
                     Spawn.spawnEntity(getPostionX(x), getPostionY(y));
                 }
             }

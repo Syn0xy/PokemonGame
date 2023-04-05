@@ -1,7 +1,8 @@
 package src;
 
 import java.util.ArrayList;
-
+import java.util.HashMap;
+import java.util.Map;
 import java.lang.Math;
 
 public class EndlessTerrain {
@@ -11,15 +12,13 @@ public class EndlessTerrain {
 
     private Position viewerPositionOld;
     
-    private ArrayList<Position> terrainChunkPosition;
-    public static ArrayList<TerrainChunk> terrainChunk;
+    public static Map<Position, TerrainChunk> terrainChunk;
     public static ArrayList<TerrainChunk> terrainChunksVisible;
 
     public EndlessTerrain(Position viewerPosition){
         EndlessTerrain.viewerPosition = viewerPosition;
         viewerPositionOld = new Position(viewerPosition.getPositionX(), viewerPosition.getPositionY());
-        terrainChunk = new ArrayList<TerrainChunk>();
-        terrainChunkPosition = new ArrayList<Position>();
+        terrainChunk = new HashMap<Position, TerrainChunk>();
         terrainChunksVisible = new ArrayList<TerrainChunk>();
 
         chunksVisibleInViewDst = Math.round(Main.maxViewDst / Main.chunkSize);
@@ -60,33 +59,17 @@ public class EndlessTerrain {
             for (int xOffset = -chunksVisibleInViewDst; xOffset <= chunksVisibleInViewDst; xOffset++){
                 Position viewedChunkCoord = new Position(currentChunkCoordX + xOffset, currentChunkCoordY + yOffset);
 
-                if (containsChunkPosition(viewedChunkCoord)){
-                    updateTerrainChunk(viewedChunkCoord);
+                if(terrainChunk.containsKey(viewedChunkCoord)){
+                    terrainChunk.get(viewedChunkCoord).updateTerrainChunk();
                 }
                 else{
-                    terrainChunk.add(new TerrainChunk(viewedChunkCoord, terrainChunk.size(), Main.chunkSize));
-                    terrainChunkPosition.add(viewedChunkCoord);
+                    terrainChunk.put(viewedChunkCoord, new TerrainChunk(viewedChunkCoord, terrainChunk.size(), Main.chunkSize));
                 }
             }
         }
-    }
-
-    public boolean containsChunkPosition(Position position){
-        for(Position pos : terrainChunkPosition)
-            if (pos.equals(position))
-                return true;
-        return false;
     }
 
     public void unvisibleAllTerrainChunk(){
         terrainChunksVisible.clear();
-    }
-
-    public void updateTerrainChunk(Position position){
-        for(int i = 0; i < terrainChunk.size(); i++){
-            if(terrainChunkPosition.get(i).equals(position)){
-                terrainChunk.get(i).updateTerrainChunk();
-            }
-        }
     }
 }

@@ -49,6 +49,7 @@ public class Main extends JFrame{
             if(currentFile.exists()){
                 String pathImage = "ressources/pokemon/" + listOfFiles[i].getName();
                 Spawn.allPokemon.add(new Pokemon(pathImage, listOfFiles[i].getName()));
+                System.out.println("Add pokemon : " + i + " : " + listOfFiles[i].getName());
             }
         }
     }
@@ -111,7 +112,7 @@ public class Main extends JFrame{
                 Spawn.updateEntities();
             }
         });
-        //timer.start();
+        timer.start();
     }
 
     @Override

@@ -19,9 +19,12 @@ public class Pokemon {
         Image img = new ImageIcon(path + "/" + Main.PATH_POKEMON_ANIMATION).getImage();        
         int w = img.getWidth(null);
         int h = img.getHeight(null);
-        overworld = new Image[w/h];
-        for(int i = 0; i < overworld.length; i++)
+        int wOne = (w/h)/3;
+        overworld = new Image[wOne * 4];
+        for(int i = 0; i < wOne * 3; i++)
             overworld[i] = toBufferedImage(img).getSubimage(i*h, 0, h, h);
+        for(int i = wOne * 3; i < overworld.length; i++)
+            overworld[i] = flipImageHorizontally(overworld[i - wOne * 3]);
     }
 
     public static BufferedImage toBufferedImage(Image img) {
@@ -31,5 +34,24 @@ public class Pokemon {
         bGr.drawImage(img, 0, 0, null);
         bGr.dispose();
         return bimage;
+    }
+
+    public static Image flipImageVertically(Image img) {
+        int w = img.getWidth(null);
+        int h = img.getHeight(null);
+        BufferedImage bimg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = bimg.createGraphics();
+        g.drawImage(img, 0, 0, w, h, 0, h, w, 0, null);
+        g.dispose();
+        return bimg;
+    }
+    public static Image flipImageHorizontally(Image img) {
+        int w = img.getWidth(null);
+        int h = img.getHeight(null);
+        BufferedImage bimg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = bimg.createGraphics();
+        g.drawImage(img, 0, 0, w, h, w, 0, 0, h, null);
+        g.dispose();
+        return bimg;
     }
 }

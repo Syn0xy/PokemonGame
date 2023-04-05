@@ -1,6 +1,7 @@
 package src;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.awt.*;
 
 public class PaintAllGraphics {
@@ -16,14 +17,14 @@ public class PaintAllGraphics {
         //g.fillRect(0, 0, WIDTH, HEIGHT);
 
         paintTerrainChunk(g, EndlessTerrain.terrainChunksVisible);
-        paintEntity(g, Spawn.entities);
         paintPlayer(g, Spawn.player);
         paintForegroundChunk(g, EndlessTerrain.terrainChunksVisible);
+        paintEntity(g, Spawn.entities);
         paintUI(g, Spawn.player, Spawn.entities);
         debug(g, EndlessTerrain.terrainChunk, EndlessTerrain.terrainChunksVisible, Spawn.entities);
     }
 
-    public static void debug(Graphics g, ArrayList<TerrainChunk> terrainChunk, ArrayList<TerrainChunk> terrainChunksVisible, ArrayList<Enemy> allEntities){
+    public static void debug(Graphics g, Map<Position, TerrainChunk> terrainChunk, ArrayList<TerrainChunk> terrainChunksVisible, ArrayList<Enemy> allEntities){
         
         if (Main.debugBoolDisplayChunk && terrainChunksVisible != null && terrainChunk != null) {
             g.setFont(new Font("Arial", Font.BOLD, 15));
