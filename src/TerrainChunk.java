@@ -12,18 +12,17 @@ public class TerrainChunk {
     public Tile[][] foremaps;
     private MapData mapData;
 
-    private Random random;
+    private static Random random = new Random(0);
 
     public TerrainChunk(Position coord, int indexChunk, int chunkSize)
     {
         this.position = coord.multiply(chunkSize);
         this.viewerPosition = EndlessTerrain.viewerPosition;
         this.chunkSize = chunkSize;
-        this.random = new Random(indexChunk);
 
         initChunk();
         connectedBlockChunk();
-        generateObject();
+        //generateObject();
         updateTerrainChunk();
     }
 

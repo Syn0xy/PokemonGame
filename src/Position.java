@@ -18,10 +18,6 @@ public class Position {
     public void addPositionX(int addX){ this.positionX += addX; }
     public void addPositionY(int addY){ this.positionY += addY; }
 
-    public boolean equals(Position position){
-        return this.positionX == position.getPositionX() && this.positionY == position.getPositionY();
-    }
-
     public static double distance(Position p1, Position p2){
         double c1 = Math.pow(p1.getPositionX()-p2.getPositionX(), 2);
         double c2 = Math.pow(p1.getPositionY()-p2.getPositionY(), 2);
@@ -34,5 +30,30 @@ public class Position {
 
     public String toString(){
         return "(x:" + positionX + ";y:" + positionY + ")";
+    }
+    
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + positionX;
+        result = prime * result + positionY;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Position other = (Position) obj;
+        if (positionX != other.positionX)
+            return false;
+        if (positionY != other.positionY)
+            return false;
+        return true;
     }
 }

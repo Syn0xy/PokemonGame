@@ -19,7 +19,7 @@ public class PaintAllGraphics {
         paintTerrainChunk(g, EndlessTerrain.terrainChunksVisible);
         paintPlayer(g, Spawn.player);
         paintForegroundChunk(g, EndlessTerrain.terrainChunksVisible);
-        paintEntity(g, Spawn.entities);
+        //paintEntity(g, Spawn.entities);
         paintUI(g, Spawn.player, Spawn.entities);
         debug(g, EndlessTerrain.terrainChunk, EndlessTerrain.terrainChunksVisible, Spawn.entities);
     }
