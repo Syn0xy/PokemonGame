@@ -15,8 +15,8 @@ public class Main extends JFrame{
     public final static int PIXEL_SIZE = 1;
     public final static int entitiesVisibleViewDst = (int)(Main.maxViewDst/1.5);
     //EndlessTerrain
-    public final static int maxViewDst = 96;
-    public final static int chunkSize = 32;
+    public final static int maxViewDst = 80;
+    public final static int chunkSize = 16;
     public final static double noiseSize = 0.001;
     public final static double biomeSize = 0.005;
     //Tile
@@ -40,20 +40,6 @@ public class Main extends JFrame{
         }
     }
 
-    private void getAllPokemon(String path){
-        Spawn.allPokemon = new ArrayList<Pokemon>();
-        File folder = new File(path);
-        File[] listOfFiles = folder.listFiles();
-        for(int i = 0; i < listOfFiles.length; i++){
-            File currentFile = new File("ressources/pokemon/" + listOfFiles[i].getName() + "/overworld.png");
-            if(currentFile.exists()){
-                String pathImage = "ressources/pokemon/" + listOfFiles[i].getName();
-                Spawn.allPokemon.add(new Pokemon(pathImage, listOfFiles[i].getName()));
-                System.out.println("Add pokemon : " + i + " : " + listOfFiles[i].getName());
-            }
-        }
-    }
-
     public Main() {
         setTitle("Games RPG");
         setSize(WIDTH, HEIGHT);
@@ -61,7 +47,7 @@ public class Main extends JFrame{
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         getAllImage("ressources/img/diamond_pearl/static/");
-        getAllPokemon("ressources/pokemon/");
+        Spawn.setPokemonBase("ressources/pokemon/");
 
         /*
         setExtendedState(JFrame.MAXIMIZED_BOTH);

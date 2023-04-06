@@ -16,25 +16,33 @@ public class MapData {
     public void initNoiseMap(){
         for(int y = 0; y < noisemap.length; y++)
             for(int x = 0; x < noisemap[y].length; x++)
-            	noisemap[y][x] = getValueByPosition(x, y);
+            	noisemap[y][x] = getValueByLocalPosition(x, y);
     }
     
     public void initBiomeMap(){
         for(int y = 0; y < biomemap.length; y++)
             for(int x = 0; x < biomemap[y].length; x++){
-            	biomemap[y][x] = getValueByPosition(x, y, Main.biomeSize);
+            	biomemap[y][x] = getValueByLocalPosition(x, y, Main.biomeSize);
             }
     }
 
-    public double getValueByPosition(int x, int y, double size){
-        return SimplexNoise.noise((x + position.getPositionX()) * size, (y + position.getPositionY()) * size);
+    public double getValueByLocalPosition(int x, int y, double size){
+        return getValueByPosition(x + position.getPositionX(), y + position.getPositionY(), size);
+    }
+    
+    public static double getValueByPosition(int x, int y, double size){
+        return SimplexNoise.noise(x * size, y * size);
     }
 
-    public double getValueByPosition(int x, int y){
-        return getValueByPosition(x, y, Main.noiseSize);
+    public double getValueByLocalPosition(int x, int y){
+        return getValueByLocalPosition(x, y, Main.noiseSize);
     }
 
-    public Biome getBiomeByPosition(int x, int y){
+    public Biome getBiomeByLocalPosition(int x, int y){
+        return getBiomeByPosition(x + position.getPositionX() - TerrainChunk.chunkSize/2, y + position.getPositionY() - TerrainChunk.chunkSize/2);
+    }
+
+    public static Biome getBiomeByPosition(int x, int y){
         double currentValue = getValueByPosition(x, y, Main.biomeSize);
         int index = Math.round((float)(((currentValue+1)*(Biome.values().length-1))/2));
         return Biome.values()[index];

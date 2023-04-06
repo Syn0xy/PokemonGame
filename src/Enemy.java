@@ -19,23 +19,14 @@ public class Enemy extends Entity{
     public String getName(){ return this.pokemon.getName(); }
     public Image getImage(){
         Image img = pokemon.getImage()[0];
-        if (direction == Direction.RIGHT){
-            img = pokemon.getImage()[6];
-        }
-        else if (direction == Direction.LEFT){
-            img = pokemon.getImage()[0];
-        }
-        else if (direction == Direction.UP){
-            img = pokemon.getImage()[2];
-        }
-        else if (direction == Direction.DOWN){
-            img = pokemon.getImage()[4];
-        }
+        if (direction == Direction.RIGHT) img = pokemon.getImage()[6];
+        else if (direction == Direction.UP) img = pokemon.getImage()[2];
+        else if (direction == Direction.DOWN) img = pokemon.getImage()[4];
         return img;
     }
 
     public void nextMove(){
-        if (Math.random() > 0.4) return;
+        if (Math.random() > 0.6) return;
         direction = Direction.values()[(int)(Math.random()*(Biome.values().length+1))];
         if (direction == Direction.RIGHT) if (nextMove(position.getPositionX()+1, position.getPositionY())) position.addPositionX(1);
         if (direction == Direction.LEFT) if (nextMove(position.getPositionX()-1, position.getPositionY())) position.addPositionX(-1);

@@ -4,7 +4,6 @@ import java.awt.*;
 import javax.swing.ImageIcon;
 
 public class Tile {
-
     private Block block;
     private Biome biome;
     private Image image;
@@ -44,7 +43,7 @@ public class Tile {
         this.biomeType = biome.toString().toLowerCase();
         setBlock();
     }
-    public void setBlock(){
+    private void setBlock(){
         if (Main.staticImage.contains(block.toString().toLowerCase() + ".png"))
             setImage("ressources/img/" + Main.PATH_GRAPHISM + "/" + Main.PATH_GRAPHISM_STATIC + "/" + block.toString().toLowerCase() + ".png");
         else setImage("ressources/img/" + Main.PATH_GRAPHISM + "/" + biomeType + "/" + block.toString().toLowerCase() + ".png");

@@ -17,9 +17,9 @@ public class PaintAllGraphics {
         //g.fillRect(0, 0, WIDTH, HEIGHT);
 
         paintTerrainChunk(g, EndlessTerrain.terrainChunksVisible);
+        paintEntity(g, Spawn.entities);
         paintPlayer(g, Spawn.player);
         paintForegroundChunk(g, EndlessTerrain.terrainChunksVisible);
-        //paintEntity(g, Spawn.entities);
         paintUI(g, Spawn.player, Spawn.entities);
         debug(g, EndlessTerrain.terrainChunk, EndlessTerrain.terrainChunksVisible, Spawn.entities);
     }
@@ -122,24 +122,18 @@ public class PaintAllGraphics {
                 placeImage(g, chunk.tilemaps[y][x].getImage(),
                 chunk.position.getPositionX() + (x - chunk.tilemaps[y].length / 2),
                 chunk.position.getPositionY() + (y - chunk.tilemaps.length / 2));
-                if(chunk.foremaps[y][x].getBlock() != Block.NOTHING && chunk.foremaps[y][x].getBlock().plane == 0){
-                    placeImage(g, chunk.foremaps[y][x].getImage(),
-                    chunk.position.getPositionX() + (x - chunk.tilemaps[y].length / 2),
-                    chunk.position.getPositionY() + (y - chunk.tilemaps.length / 2));
-                }
             }
+        }
+        for (Map.Entry<Position, Tile> f : chunk.foremaps.entrySet()) {
+            if(f.getValue().getBlock().plane == 0)
+                placeImage(g, f.getValue().getImage(), f.getKey().getPositionX(), f.getKey().getPositionY());
         }
     }
 
     public static void paintChunkForeground(Graphics g, TerrainChunk chunk){
-        for(int y = 0; y < chunk.foremaps.length; y++){
-            for(int x = 0; x < chunk.foremaps[y].length; x++){
-                if(chunk.foremaps[y][x].getBlock() != Block.NOTHING && chunk.foremaps[y][x].getBlock().plane == 1){
-                    placeImage(g, chunk.foremaps[y][x].getImage(),
-                    chunk.position.getPositionX() + (x - chunk.foremaps[y].length / 2),
-                    chunk.position.getPositionY() + (y - chunk.foremaps.length / 2));
-                }
-            }
+        for (Map.Entry<Position, Tile> f : chunk.foremaps.entrySet()) {
+            if(f.getValue().getBlock().plane == 1)
+                placeImage(g, f.getValue().getImage(), f.getKey().getPositionX(), f.getKey().getPositionY());
         }
     }
     
