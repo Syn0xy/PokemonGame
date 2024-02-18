@@ -7,8 +7,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,15 +25,10 @@ public class GameCanvas extends JPanel {
     public final static int PIXEL_SIZE = 2;
     public final static int entitiesVisibleViewDst = (int)(maxViewDst / 1.5);
     public final static int TILE_SIZE = BLOCK_SIZE * PIXEL_SIZE;
-    
-    public final static String PATH_GRAPHISM = "diamond_pearl";
-    public final static String PATH_GRAPHISM_STATIC = "static";
 
     public static boolean debugBoolDisplayChunk = false;
     public static boolean debugBoolEnemy = false;
     public static boolean debugBoolOutlineChunk = false;
-
-    public static ArrayList<String> staticImage;
 
     private List<Entity> entities;
 
@@ -54,16 +47,6 @@ public class GameCanvas extends JPanel {
         this.visibleChunks = endlessTerrain.getTerrainChunksVisible();
         this.player = gameScene.getPlayer();
         this.position = player.position;
-    }
-    
-    public static void getAllImage(){
-        File folder = new File("./res/img/diamond_pearl/static/");
-        String[] filesName = folder.list();
-        staticImage = new ArrayList<>();
-        for(int i = 0; i < filesName.length; i++){
-            System.out.println("Load: " + filesName[i]);
-            staticImage.add(filesName[i]);
-        }
     }
 
     @Override

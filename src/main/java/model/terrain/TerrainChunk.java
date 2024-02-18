@@ -101,14 +101,14 @@ public class TerrainChunk {
         int rx = getPostionX(localX);
         int ry = getPostionY(localY);
         setBlockForemaps(block, rx, ry);
-        Tile tile = foremaps.get(new Vector2(rx, ry));
-        for(int y = ry - tile.getHeight() + 2; y <= ry; y++){
-            for(int x = rx - tile.getWidth() + 1; x <= rx; x++){
-                if (x != rx || y != ry){
-                        setBlockForemaps(Block.ROCK, x, y);
-                }
-            }
-        }
+        // Tile tile = foremaps.get(new Vector2(rx, ry));
+        // for(int y = ry - tile.getHeight() + 2; y <= ry; y++){
+        //     for(int x = rx - tile.getWidth() + 1; x <= rx; x++){
+        //         if (x != rx || y != ry){
+        //                 setBlockForemaps(Block.ROCK, x, y);
+        //         }
+        //     }
+        // }
     }
 
     public void setBlockForemaps(Block block, int x, int y){

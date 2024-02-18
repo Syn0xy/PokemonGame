@@ -6,7 +6,6 @@ import java.util.List;
 import model.entity.Entity;
 import model.entity.Player;
 import model.terrain.EndlessTerrain;
-import view.GameCanvas;
 import view.util.Subject;
 
 public class GameScene extends Subject {
@@ -24,8 +23,7 @@ public class GameScene extends Subject {
     public GameScene() {
         this.entities = new ArrayList<>();
         init();
-        GameCanvas.getAllImage();
-        endlessTerrain = new EndlessTerrain(player.position, entities);
+        this.endlessTerrain = new EndlessTerrain(player.position, entities);
     }
 
     private void init(){

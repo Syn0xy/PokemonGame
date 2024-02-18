@@ -1,34 +1,32 @@
 package model.entity;
 
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
-import javax.swing.ImageIcon;
 
 public class Pokemon {
     
-    private static final String PATH_POKEMON_ANIMATION = "overworld.png";
-    
-    private static final String PATH_POKEMON_ANIMATION_SHINY = "overworld-shiny.png";
-    
     protected String name;
+
+    protected Image image;
     
     protected Image[] overworld;
     
-    public Pokemon(String pathImage, String name){
+    public Pokemon(Image image, String name){
         this.name = name;
-        findImage(pathImage);
+        this.image = image;
+        decompose();
     }
 
     public Image[] getImage(){ return this.overworld; }
     public String getName(){ return this.name; }
-    public void findImage(String path) {
-        Image img = new ImageIcon(path + "/" + PATH_POKEMON_ANIMATION).getImage();        
-        int w = img.getWidth(null);
-        int h = img.getHeight(null);
+    public void decompose() {    
+        int w = image.getWidth(null);
+        int h = image.getHeight(null);
         int wOne = (w/h)/3;
         overworld = new Image[wOne * 4];
         for(int i = 0; i < wOne * 3; i++)
-            overworld[i] = toBufferedImage(img).getSubimage(i*h, 0, h, h);
+            overworld[i] = toBufferedImage(image).getSubimage(i*h, 0, h, h);
         for(int i = wOne * 3; i < overworld.length; i++)
             overworld[i] = flipImageHorizontally(overworld[i - wOne * 3]);
     }

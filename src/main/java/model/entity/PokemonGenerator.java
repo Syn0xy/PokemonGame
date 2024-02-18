@@ -1,18 +1,19 @@
 package model.entity;
 
-import java.io.File;
+import java.awt.Image;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+
+import view.ImageManager;
 
 public class PokemonGenerator {
-
-    private static final String POKEMON_PATH = "./res/pokemon/";
     
     private static PokemonGenerator singleton;
 
-    private static String[] pokemonsName;
-
-    private static Map<String, Pokemon> pokemons;
+    private Map<String, Pokemon> pokemons;
 
     public static final PokemonGenerator getInstance(){
         if(singleton == null) singleton = new PokemonGenerator();
@@ -20,37 +21,17 @@ public class PokemonGenerator {
     }
 
     private PokemonGenerator(){
-        init();
-    }
-
-    private void init(){
-        File directory = new File(POKEMON_PATH);
-
-        if(directory.exists()){
-            pokemonsName = directory.list();
-            pokemons = new HashMap<>();
-            int total = 0;
-            for (int i = 0; i < pokemonsName.length; i++) {
-                String name = pokemonsName[i];
-                File crntFile = new File("./res/pokemon/" + name + "/overworld.png");
-                if(crntFile.exists()){
-                    pokemons.put(name, new Pokemon(POKEMON_PATH + name, name));
-                    System.out.println(i + ". load: " + name);
-                    total++;
-                }else{
-                    System.err.println(i + ". fail: " + name + " - est impossible à charger !");
-                }
-            }
-            System.out.println("Total: " + total + " pokemons loaded");
+        this.pokemons = new HashMap<>();
+        for(Entry<String, Image> entry : ImageManager.getPokemonImages().entrySet()){
+            String name = entry.getKey();
+            Pokemon pokemon = new Pokemon(entry.getValue(), name);
+            pokemons.put(name, pokemon);
         }
     }
 
     public Pokemon getPokemon(){
-        Pokemon p = null;
-        do{
-            p = getPokemon(pokemonsName[(int)(Math.random() * pokemonsName.length)]);
-        }while(p == null);
-        return p;
+        List<String> keySet = new ArrayList<>(pokemons.keySet());
+        return pokemons.get(keySet.get((int)(Math.random() * keySet.size())));
     }
 
     public Pokemon getPokemon(String pokemonName){
