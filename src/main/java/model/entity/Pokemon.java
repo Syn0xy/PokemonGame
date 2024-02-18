@@ -17,7 +17,6 @@ public class Pokemon {
     public Pokemon(String pathImage, String name){
         this.name = name;
         findImage(pathImage);
-        System.out.println("Load: " + pathImage);
     }
 
     public Image[] getImage(){ return this.overworld; }

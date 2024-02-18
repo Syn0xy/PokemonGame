@@ -29,15 +29,19 @@ public class PokemonGenerator {
         if(directory.exists()){
             pokemonsName = directory.list();
             pokemons = new HashMap<>();
+            int total = 0;
             for (int i = 0; i < pokemonsName.length; i++) {
                 String name = pokemonsName[i];
                 File crntFile = new File("./res/pokemon/" + name + "/overworld.png");
                 if(crntFile.exists()){
                     pokemons.put(name, new Pokemon(POKEMON_PATH + name, name));
+                    System.out.println(i + ". load: " + name);
+                    total++;
                 }else{
-                    System.err.println(name + " n'existe pas !");
+                    System.err.println(i + ". fail: " + name + " - est impossible à charger !");
                 }
             }
+            System.out.println("Total: " + total + " pokemons loaded");
         }
     }
 
