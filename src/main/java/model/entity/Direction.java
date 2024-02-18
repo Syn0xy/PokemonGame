@@ -1,4 +1,4 @@
-package entity;
+package model.entity;
 
 public enum Direction {
     LEFT,

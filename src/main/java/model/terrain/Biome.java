@@ -1,4 +1,4 @@
-package terrain;
+package model.terrain;
 
 public enum Biome {
     DESERT,

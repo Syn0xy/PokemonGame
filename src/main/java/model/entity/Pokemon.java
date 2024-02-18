@@ -1,4 +1,4 @@
-package entity;
+package model.entity;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -6,15 +6,17 @@ import javax.swing.ImageIcon;
 
 public class Pokemon {
     
-    //Pokemon animation
-    public final static String PATH_POKEMON_ANIMATION = "overworld.png";
-    public final static String PATH_POKEMON_ANIMATION_SHINY = "overworld-shiny.png";
-
-    private Image[] overworld;
-    private String name;
-
+    private static final String PATH_POKEMON_ANIMATION = "overworld.png";
+    
+    private static final String PATH_POKEMON_ANIMATION_SHINY = "overworld-shiny.png";
+    
+    protected Image[] overworld;
+    
+    protected String name;
+    
     public Pokemon(String pathImage, String name){
         setImage(pathImage);
+        System.out.println(pathImage);
         this.name = name;
     }
 

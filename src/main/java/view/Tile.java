@@ -9,8 +9,8 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
-import terrain.Biome;
-import terrain.Block;
+import model.terrain.Biome;
+import model.terrain.Block;
 
 public class Tile {
     

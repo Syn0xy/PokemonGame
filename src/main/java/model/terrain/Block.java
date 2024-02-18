@@ -1,4 +1,4 @@
-package terrain;
+package model.terrain;
 
 public enum Block {
     NOTHING(0, 0),

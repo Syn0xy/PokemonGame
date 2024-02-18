@@ -1,15 +1,14 @@
-package terrain;
+package model.terrain;
 
-import java.util.Random;
-
-import entity.Spawn;
-import util.Vector2;
-import view.Tile;
+import static model.terrain.EndlessTerrain.maxViewDst;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
-import static terrain.EndlessTerrain.maxViewDst;
+import model.entity.Spawn;
+import model.util.Vector2;
+import view.Tile;
 
 public class TerrainChunk {
     public Vector2 position;

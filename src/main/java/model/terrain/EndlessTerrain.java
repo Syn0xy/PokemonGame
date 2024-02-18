@@ -1,10 +1,11 @@
-package terrain;
+package model.terrain;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import util.Vector2;
+import model.util.Vector2;
 
 import java.lang.Math;
 
@@ -23,7 +24,7 @@ public class EndlessTerrain {
     private Vector2 viewerPositionOld;
     
     public static Map<Vector2, TerrainChunk> terrainChunk;
-    public static ArrayList<TerrainChunk> terrainChunksVisible;
+    public static List<TerrainChunk> terrainChunksVisible;
 
     public EndlessTerrain(Vector2 viewerPosition){
         EndlessTerrain.viewerPosition = viewerPosition;

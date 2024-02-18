@@ -1,11 +1,11 @@
-package terrain;
+package model.terrain;
 
-import util.Vector2;
-import util.SimplexNoise;
+import static model.terrain.EndlessTerrain.biomeSize;
+import static model.terrain.EndlessTerrain.chunkSize;
+import static model.terrain.EndlessTerrain.noiseSize;
 
-import static terrain.EndlessTerrain.biomeSize;
-import static terrain.EndlessTerrain.chunkSize;
-import static terrain.EndlessTerrain.noiseSize;;
+import model.util.SimplexNoise;
+import model.util.Vector2;;
 
 public class MapData {
     private Vector2 position;

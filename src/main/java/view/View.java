@@ -31,12 +31,10 @@ public abstract class View extends JFrame {
     protected abstract void init();
 
     protected View(int width, int height){
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle(getTitle());
         setSize(width, height);
         setLocation(center());
-        setResizable(true);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
         setVisible(true);
     }
 

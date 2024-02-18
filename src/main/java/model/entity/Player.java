@@ -1,19 +1,24 @@
-package entity;
+package model.entity;
 
-import terrain.EndlessTerrain;
+import model.terrain.EndlessTerrain;
 
-public class Player extends Entity{
-    private String username;
+public class Player extends Entity {
 
-    public Player(String username, int positionX, int positionY){
-        super(positionX, positionY);
-        this.username = username;
-        setImage("./res/img/red.png");
+    private static final String IMAGE_PATH = "./res/img/red.png";
+
+    public Player(String name, int positionX, int positionY){
+        super(IMAGE_PATH, name, positionX, positionY);
     }
 
-    public String getUsername(){ return this.username; }
+    @Override
+    public String getName() {
+        return super.getName() + " - " + position;
+    }
 
-    public void movePlayer(Direction direction){       
+    @Override
+    public void update() {}
+
+    public void movePlayer(Direction direction){
         if (direction == Direction.RIGHT) { // DROITE
             if (nextMove(position.x + 1, position.y)) position.x++;
         }
