@@ -1,38 +1,41 @@
 package model.terrain;
 
+import static model.terrain.EndlessTerrain.chunkSize;
 import static model.terrain.EndlessTerrain.maxViewDst;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import model.entity.Spawn;
+import model.entity.Entity;
+import model.entity.Pokemon;
+import model.entity.PokemonEntity;
+import model.entity.PokemonGenerator;
 import model.util.Vector2;
 import view.Tile;
 
 public class TerrainChunk {
+    
+    private static Random random = new Random(0);
+    
     public Vector2 position;
-    public Vector2 edgePosition;
-    private Vector2 viewerPosition;
-    private int chunkSize;
-
+    
     public Tile[][] tilemaps;
+    
+    private MapData mapData;
     
     public Map<Vector2, Tile> foremaps = new HashMap<Vector2, Tile>();
 
-    private MapData mapData;
+    private List<Entity> entities;
 
-    private static Random random = new Random(0);
-
-    public TerrainChunk(Vector2 coord, int indexChunk, int chunkSize){
-        this.chunkSize = chunkSize;
+    public TerrainChunk(Vector2 coord, List<Entity> entities){
         this.position = coord.multiply(chunkSize);
-        this.viewerPosition = EndlessTerrain.viewerPosition;
+        this.entities = entities;
 
         initChunk();
         connectedBlockChunk();
-        generateObject();
-        updateTerrainChunk();
+        generateObjects();
     }
 
     public void initChunk(){
@@ -43,19 +46,16 @@ public class TerrainChunk {
             for(int x = 0; x < mapData.noisemap[y].length; x++){
                 currentBiome = mapData.getBiomeByLocalPosition(x, y);
                 tilemaps[y][x] = new Tile(getBlockByValue(mapData.noisemap[y][x]), currentBiome);
-                //foremaps[y][x] = new Tile(Block.NOTHING, currentBiome);
             }
         }
     }
 
     public Block getBlockByValue(double value){
-        Block block = Block.NOTHING;
-        if(value > 0){
-            block = Block.LAND;
-        }else{
-            block = Block.WATER;
-        }
-        return block;
+        return value > 0 ? Block.LAND : Block.WATER;
+    }
+
+    public boolean isVisible(Vector2 viewerPosition) {
+        return position.distance(viewerPosition) <= maxViewDst;
     }
 
     public void connectedBlockChunk(){
@@ -98,13 +98,13 @@ public class TerrainChunk {
     }
 
     public void setAdvancedBlockForemaps(Block block, int localX, int localY){
-        int rX = getPostionX(localX);
-        int rY = getPostionY(localY);
-        setBlockForemaps(block, rX, rY);
-        Tile tile = foremaps.get(new Vector2(rX, rY));
-        for(int y = rY - tile.getHeight() + 2; y <= rY; y++){
-            for(int x = rX - tile.getWidth() + 1; x <= rX; x++){
-                if (x != rX || y != rY){
+        int rx = getPostionX(localX);
+        int ry = getPostionY(localY);
+        setBlockForemaps(block, rx, ry);
+        Tile tile = foremaps.get(new Vector2(rx, ry));
+        for(int y = ry - tile.getHeight() + 2; y <= ry; y++){
+            for(int x = rx - tile.getWidth() + 1; x <= rx; x++){
+                if (x != rx || y != ry){
                         setBlockForemaps(Block.ROCK, x, y);
                 }
             }
@@ -120,11 +120,12 @@ public class TerrainChunk {
         }
     }
 
-    public void generateObject(){
+    public void generateObjects(){
         for(int y = 0; y < tilemaps.length; y++){
             for(int x = 0; x < tilemaps[y].length; x++){
                 if(tilemaps[y][x].getBlock() == Block.LAND && random.nextDouble() > 0.99){
-                    Spawn.spawnEntity(getPostionX(x), getPostionY(y));
+                    Pokemon pokemon = PokemonGenerator.getInstance().getPokemon();
+                    entities.add(new PokemonEntity(pokemon, getPostionX(x), getPostionY(y)));
                 }
             }
         }
@@ -146,11 +147,5 @@ public class TerrainChunk {
         Vector2 p = new Vector2(x, y);
         if(foremaps.containsKey(p)) fore = foremaps.get(p).getBlock();
         return fore == null ? tile : fore.height >= tile.height ? fore : tile;
-    }
-
-    public void updateTerrainChunk() {
-        if (position.distance(viewerPosition) <= maxViewDst) {
-            EndlessTerrain.terrainChunksVisible.add(this);
-        }
     }
 }

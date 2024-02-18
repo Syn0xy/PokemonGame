@@ -17,7 +17,6 @@ import javax.swing.JPanel;
 import model.GameScene;
 import model.entity.Entity;
 import model.entity.Player;
-import model.entity.Spawn;
 import model.terrain.EndlessTerrain;
 import model.terrain.TerrainChunk;
 import model.util.Vector2;
@@ -38,7 +37,7 @@ public class GameCanvas extends JPanel {
 
     public static ArrayList<String> staticImage;
 
-    private GameScene gameScene;
+    private List<Entity> entities;
 
     private Map<Vector2, TerrainChunk> chunks;
 
@@ -49,20 +48,20 @@ public class GameCanvas extends JPanel {
     private Vector2 position;
 
     protected GameCanvas(GameScene gameScene){
-        this.gameScene = gameScene;
-        this.chunks = EndlessTerrain.terrainChunk;
-        this.visibleChunks = EndlessTerrain.terrainChunksVisible;
+        this.entities = gameScene.getEntities();
+        EndlessTerrain endlessTerrain = gameScene.getEndlessTerrain();
+        this.chunks = endlessTerrain.getTerrainChunks();
+        this.visibleChunks = endlessTerrain.getTerrainChunksVisible();
         this.player = gameScene.getPlayer();
         this.position = player.position;
-        getAllImage();
     }
     
     public static void getAllImage(){
         File folder = new File("./res/img/diamond_pearl/static/");
         String[] filesName = folder.list();
-        staticImage = new ArrayList<String>();
+        staticImage = new ArrayList<>();
         for(int i = 0; i < filesName.length; i++){
-            System.out.println("Load: " + filesName);
+            System.out.println("Load: " + filesName[i]);
             staticImage.add(filesName[i]);
         }
     }
@@ -72,11 +71,11 @@ public class GameCanvas extends JPanel {
         clearScreen(g);
         g.translate(getWidth() / 2, getHeight() / 2);
         paintTerrainChunk(g);
-        paintEntity(g, Spawn.entities);
+        paintEntity(g);
         paintForegroundChunk(g);
-        paintUI(g, Spawn.entities);
+        paintUI(g);
         g.translate(- getWidth() / 2, - getHeight() / 2);
-        debug(g, Spawn.entities);
+        debug(g);
     }
 
     private void clearScreen(Graphics g){
@@ -84,26 +83,16 @@ public class GameCanvas extends JPanel {
         g.fillRect(0, 0, getWidth(), getHeight());
     }
 
-    public void debug(Graphics g, List<Entity> entities){
+    private void debug(Graphics g){
         if(debugBoolOutlineChunk && visibleChunks != null){
             g.setColor(Color.CYAN);
             int size = 2;
-            int CS = chunkSize;
+            int cs = chunkSize;
             for (TerrainChunk chunk : visibleChunks) {
-                g.fillRect(
-                    (chunk.position.x - CS/2) * TILE_SIZE - position.x * TILE_SIZE,
-                    0, size, getHeight());
-                g.fillRect(
-                    (chunk.position.x + CS/2) * TILE_SIZE - position.x * TILE_SIZE,
-                    0, size, getHeight());
-            }
-            for (TerrainChunk chunk : visibleChunks) {
-                g.fillRect(0,
-                    (chunk.position.y + CS/2) * TILE_SIZE - position.y * TILE_SIZE,
-                    getWidth(), size);
-                g.fillRect(0,
-                    (chunk.position.y - CS/2) * TILE_SIZE - position.y * TILE_SIZE,
-                    getWidth(), size);
+                g.fillRect((chunk.position.x - position.x - cs) * TILE_SIZE, 0, size, getHeight());
+                g.fillRect((chunk.position.x - position.x + cs) * TILE_SIZE, 0, size, getHeight());
+                g.fillRect(0, (chunk.position.y - position.y - cs) * TILE_SIZE, getWidth(), size);
+                g.fillRect(0, (chunk.position.y - position.y + cs) * TILE_SIZE, getWidth(), size);
             }
         }
 
@@ -129,7 +118,7 @@ public class GameCanvas extends JPanel {
         }
     }
 
-    private void paintUI(Graphics g, List<Entity> entities){
+    private void paintUI(Graphics g){
         g.setColor(Color.RED);
         g.setFont(new Font("Arial", Font.PLAIN, (int)(BLOCK_SIZE * 0.75)));
         
@@ -146,43 +135,37 @@ public class GameCanvas extends JPanel {
         }
     }
 
-    public void placePixel(Graphics g, int x, int y){
-        g.fillRect(
-        (x * TILE_SIZE) - position.x * TILE_SIZE,
-        (y * TILE_SIZE) - position.y * TILE_SIZE,
-        TILE_SIZE,
-        TILE_SIZE);
-    }
-
-    public void placeString(Graphics g, String str, int x, int y, int offsetX, int offsetY){
+    private void placeString(Graphics g, String str, int x, int y, int offsetX, int offsetY){
         g.drawString(str,
         x * TILE_SIZE - position.x * TILE_SIZE + offsetX,
         y * TILE_SIZE - position.y * TILE_SIZE - offsetY);
     }
     
-    public void placeStringCenter(Graphics g, String str, int x, int y, int offsetX, int offsetY){
+    private void placeStringCenter(Graphics g, String str, int x, int y, int offsetX, int offsetY){
         int width = g.getFontMetrics().stringWidth(str);
         placeString(g, str, x, y, offsetX + TILE_SIZE/2 - width/2, offsetY);
     }
 
-    public void placeImage(Graphics g, Image img, int x, int y){
+    private void placeImage(Graphics g, Image img, int x, int y){
         g.drawImage(img,
         (x * TILE_SIZE) - position.x * TILE_SIZE - (img.getWidth(null) * PIXEL_SIZE - TILE_SIZE),
         (y * TILE_SIZE) - position.y * TILE_SIZE - (img.getHeight(null) * PIXEL_SIZE - TILE_SIZE),
         img.getWidth(null) * PIXEL_SIZE, img.getHeight(null) * PIXEL_SIZE, null);
     }
 
-    public void paintTerrainChunk(Graphics g){
-        for(int i = 0; i < visibleChunks.size(); i++)
-            paintChunkBackground(g, visibleChunks.get(i));
+    private void paintTerrainChunk(Graphics g){
+        for (TerrainChunk chunk : visibleChunks) {
+            paintChunkBackground(g, chunk);
+        }
     }
     
-    public void paintForegroundChunk(Graphics g){
-        for(int i = 0; i < visibleChunks.size(); i++)
-            paintChunkForeground(g, visibleChunks.get(i));
+    private void paintForegroundChunk(Graphics g){
+        for (TerrainChunk chunk : visibleChunks) {
+            paintChunkForeground(g, chunk);
+        }
     }
 
-    public void paintChunkBackground(Graphics g, TerrainChunk chunk){
+    private void paintChunkBackground(Graphics g, TerrainChunk chunk){
         for(int y = 0; y < chunk.tilemaps.length; y++){
             for(int x = 0; x < chunk.tilemaps[y].length; x++){
                 placeImage(g, chunk.tilemaps[y][x].getImage(),
@@ -196,16 +179,16 @@ public class GameCanvas extends JPanel {
         }
     }
 
-    public void paintChunkForeground(Graphics g, TerrainChunk chunk){
+    private void paintChunkForeground(Graphics g, TerrainChunk chunk){
         for (Map.Entry<Vector2, Tile> f : chunk.foremaps.entrySet()) {
             if(f.getValue().getBlock().plane == 1)
                 placeImage(g, f.getValue().getImage(), f.getKey().x, f.getKey().y);
         }
     }
 
-    public void paintEntity(Graphics g, List<Entity> entities){
+    private void paintEntity(Graphics g){
         for (Entity entity : entities) {
-            if (entity.position.distance(Spawn.player.position) < entitiesVisibleViewDst){
+            if (entity.position.distance(player.position) < entitiesVisibleViewDst){
                 placeImage(g, entity.getImage(), entity.position.x, entity.position.y);
             }
         }

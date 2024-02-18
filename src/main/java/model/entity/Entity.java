@@ -37,4 +37,8 @@ public abstract class Entity {
 
     public abstract void update();
 
+    protected boolean nextMove(int x, int y){
+        return true;
+    }
+
 }

@@ -1,7 +1,5 @@
 package model.entity;
 
-import model.terrain.EndlessTerrain;
-
 public class Player extends Entity {
 
     private static final String IMAGE_PATH = "./res/img/red.png";
@@ -31,9 +29,5 @@ public class Player extends Entity {
         if (direction == Direction.DOWN) { // BAS
             if (nextMove(position.x, position.y + 1)) position.y++;
         }
-    }
-
-    public boolean nextMove(int x, int y){
-        return EndlessTerrain.getBlock(x, y).height != 2;
     }
 }

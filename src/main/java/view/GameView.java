@@ -9,7 +9,7 @@ import java.awt.event.KeyEvent;
 
 import model.GameScene;
 import model.entity.Direction;
-import model.entity.Spawn;
+import model.entity.Player;
 import view.util.Observer;
 import view.util.Subject;
 
@@ -38,15 +38,17 @@ public class GameView extends View implements Observer {
     @Override
     protected void init() {
         add(new GameCanvas(gameScene));
+        Player player = gameScene.getPlayer();
+        
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 int key = e.getKeyCode();
                 
-                if (key == KeyEvent.VK_LEFT) { Spawn.player.movePlayer(Direction.LEFT); }
-                if (key == KeyEvent.VK_RIGHT) { Spawn.player.movePlayer(Direction.RIGHT); }
-                if (key == KeyEvent.VK_UP) { Spawn.player.movePlayer(Direction.UP); }
-                if (key == KeyEvent.VK_DOWN) { Spawn.player.movePlayer(Direction.DOWN);}
+                if (key == KeyEvent.VK_LEFT) { player.movePlayer(Direction.LEFT); }
+                if (key == KeyEvent.VK_RIGHT) { player.movePlayer(Direction.RIGHT); }
+                if (key == KeyEvent.VK_UP) { player.movePlayer(Direction.UP); }
+                if (key == KeyEvent.VK_DOWN) { player.movePlayer(Direction.DOWN);}
 
                 if (key == KeyEvent.VK_P) { debugDiplayChunk(); }
                 if (key == KeyEvent.VK_L) { debugEnemy(); }

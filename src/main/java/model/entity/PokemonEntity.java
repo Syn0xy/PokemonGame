@@ -5,7 +5,6 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 import model.terrain.Biome;
-import model.terrain.EndlessTerrain;
 
 public class PokemonEntity extends Entity {
     
@@ -47,9 +46,5 @@ public class PokemonEntity extends Entity {
         if (direction == Direction.LEFT) if (nextMove(position.x - 1, position.y)) position.x--;
         if (direction == Direction.UP) if (nextMove(position.x, position.y - 1)) position.y--;
         if (direction == Direction.DOWN) if (nextMove(position.x, position.y + 1)) position.y++;
-    }
-
-    public boolean nextMove(int x, int y){
-        return EndlessTerrain.getBlock(x, y).height != 2;
     }
 }

@@ -10,19 +10,19 @@ public class Pokemon {
     
     private static final String PATH_POKEMON_ANIMATION_SHINY = "overworld-shiny.png";
     
-    protected Image[] overworld;
-    
     protected String name;
     
+    protected Image[] overworld;
+    
     public Pokemon(String pathImage, String name){
-        setImage(pathImage);
-        System.out.println(pathImage);
         this.name = name;
+        findImage(pathImage);
+        System.out.println("Load: " + pathImage);
     }
 
     public Image[] getImage(){ return this.overworld; }
     public String getName(){ return this.name; }
-    public void setImage(String path) {
+    public void findImage(String path) {
         Image img = new ImageIcon(path + "/" + PATH_POKEMON_ANIMATION).getImage();        
         int w = img.getWidth(null);
         int h = img.getHeight(null);
