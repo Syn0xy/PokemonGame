@@ -1,10 +1,13 @@
 package view;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
+
+import view.scene.Scene;
 
 public abstract class View extends JFrame {
 
@@ -25,6 +28,8 @@ public abstract class View extends JFrame {
     private double timeDiff;
 
     private int counter = 0;
+
+    private Scene currentScene;
     
     public abstract String getTitle();
 
@@ -36,6 +41,18 @@ public abstract class View extends JFrame {
         setSize(width, height);
         setLocation(center());
         setVisible(true);
+    }
+    
+    @Override
+    public void paint(Graphics g) {
+        currentScene.paint(g);
+    }
+
+    protected void setScene(Scene scene){
+        removeAll();
+        currentScene = scene;
+        add(scene);
+        scene.start();
     }
 
     protected Point center(){

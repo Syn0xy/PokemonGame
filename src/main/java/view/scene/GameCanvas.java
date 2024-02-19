@@ -1,4 +1,4 @@
-package view;
+package view.scene;
 
 import static model.terrain.EndlessTerrain.chunkSize;
 import static model.terrain.EndlessTerrain.maxViewDst;
@@ -10,16 +10,15 @@ import java.awt.Image;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.JPanel;
-
 import model.GameScene;
 import model.entity.Entity;
 import model.entity.Player;
 import model.terrain.EndlessTerrain;
 import model.terrain.TerrainChunk;
 import model.util.Vector2;
+import view.Tile;
 
-public class GameCanvas extends JPanel {
+public class GameCanvas extends Scene {
     
     public final static int BLOCK_SIZE = 16;
     public final static int PIXEL_SIZE = 2;
@@ -29,6 +28,8 @@ public class GameCanvas extends JPanel {
     public static boolean debugBoolDisplayChunk = false;
     public static boolean debugBoolEnemy = false;
     public static boolean debugBoolOutlineChunk = false;
+
+    private GameScene gameScene;
 
     private List<Entity> entities;
 
@@ -40,7 +41,8 @@ public class GameCanvas extends JPanel {
 
     private Vector2 position;
 
-    protected GameCanvas(GameScene gameScene){
+    public GameCanvas(GameScene gameScene){
+        this.gameScene = gameScene;
         this.entities = gameScene.getEntities();
         EndlessTerrain endlessTerrain = gameScene.getEndlessTerrain();
         this.chunks = endlessTerrain.getTerrainChunks();
@@ -48,6 +50,9 @@ public class GameCanvas extends JPanel {
         this.player = gameScene.getPlayer();
         this.position = player.position;
     }
+
+    @Override
+    public void start() {}
 
     @Override
     public void paint(Graphics g) {

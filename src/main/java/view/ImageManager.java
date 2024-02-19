@@ -3,6 +3,10 @@ package view;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,19 +46,19 @@ public class ImageManager {
         return null;
     }
 
-    public static void init(){
+    public static void init(BufferedWriter writer){
         pokemonImages = new HashMap<>();
         worldImages = new HashMap<>();
 
         try {
-            initPokemon(POKEMON_PATH);
-            initWorldImages(PATH_GRAPHISM);
+            initPokemon(writer, POKEMON_PATH);
+            initWorldImages(writer, PATH_GRAPHISM);
         } catch (Exception e) {
-            System.err.println("Failed to load images: " + e.getMessage());
+            writer.println("Failed to load images: " + e.getMessage());
         }
     }
 
-    private static void initPokemon(String path) throws IOException {
+    private static void initPokemon(BufferedWriter writer, String path) throws IOException {
         File directory = new File(POKEMON_PATH);
 
         if(directory.exists() && directory.isDirectory()){
@@ -65,23 +69,23 @@ public class ImageManager {
                 File crntFile = new File(POKEMON_PATH + name + "/" + PATH_POKEMON_ANIMATION);
                 if(crntFile.exists()){
                     pokemonImages.put(name, ImageIO.read(crntFile));
-                    System.out.println(i + ". pokemon load: " + name);
+                    writer.println(i + ". pokemon load: " + name);
                     total++;
                 }else{
-                    System.err.println(i + ". pokemon fail: " + name + " - est impossible à charger !");
+                    writer.println(i + ". pokemon fail: " + name + " - est impossible à charger !");
                 }
             }
-            System.out.println("Total: " + total + " pokemons loaded");
+            writer.println("Total: " + total + " pokemons loaded");
         }
     }
     
-    public static void initWorldImages(String path) throws IOException {
+    public static void initWorldImages(BufferedWriter writer, String path) throws IOException {
         int total = 0;
         for (File file : getFiles(IMAGE_PATH + PATH_GRAPHISM + SERPARATOR)) {
             String fileName = file.getName();
             String name = fileName.substring(0, fileName.length() - 4);
             worldImages.put(name, ImageIO.read(file));
-            System.out.println(total + ". world load: " + name);
+            writer.println(total + ". world load: " + name);
             total++;
         }
     }

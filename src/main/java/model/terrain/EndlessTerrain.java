@@ -12,7 +12,7 @@ import java.lang.Math;
 
 public class EndlessTerrain {
     
-    public final static int maxViewDst = 40;
+    public final static int maxViewDst = 48;
     public final static int chunkSize = 16;
     public final static double noiseSize = 0.005;
     public final static double biomeSize = 0.01;

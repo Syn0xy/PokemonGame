@@ -1,10 +1,16 @@
 package model;
 
+import static view.scene.GameCanvas.debugBoolDisplayChunk;
+import static view.scene.GameCanvas.debugBoolEnemy;
+import static view.scene.GameCanvas.debugBoolOutlineChunk;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import model.entity.Entity;
 import model.entity.Player;
+import model.input.Input;
+import model.input.KeyCode;
 import model.terrain.EndlessTerrain;
 import view.util.Subject;
 
@@ -19,15 +25,11 @@ public class GameScene extends Subject {
     private EndlessTerrain endlessTerrain;
 
     private Player player;
-    
-    public GameScene() {
-        this.entities = new ArrayList<>();
-        init();
-        this.endlessTerrain = new EndlessTerrain(player.position, entities);
-    }
 
-    private void init(){
+    public GameScene(){
+        this.entities = new ArrayList<>();
         this.player = new Player("test", -32, -12);
+        this.endlessTerrain = new EndlessTerrain(player.position, entities);
         entities.add(player);
     }
 
@@ -64,6 +66,12 @@ public class GameScene extends Subject {
         endlessTerrain.updateChunk();
         updateEntities();
         notifyObservers();
+        Input.update();
+
+        
+        if (Input.getKeyDown(KeyCode.P)) { debugDiplayChunk(); }
+        if (Input.getKeyDown(KeyCode.L)) { debugEnemy(); }
+        if (Input.getKeyDown(KeyCode.O)) { debugOutlineChunk(); }
     }
 
     private void updateEntities(){
@@ -71,4 +79,8 @@ public class GameScene extends Subject {
             entity.update();
         }
     }
+    
+    public static void debugDiplayChunk(){ debugBoolDisplayChunk = !debugBoolDisplayChunk; }
+    public static void debugEnemy(){ debugBoolEnemy = !debugBoolEnemy; }
+    public static void debugOutlineChunk(){ debugBoolOutlineChunk = !debugBoolOutlineChunk; }
 }

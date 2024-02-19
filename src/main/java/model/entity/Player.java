@@ -1,5 +1,10 @@
 package model.entity;
 
+import java.awt.event.KeyEvent;
+
+import model.input.Input;
+import model.input.KeyCode;
+
 public class Player extends Entity {
 
     private static final String IMAGE_PATH = "./res/img/red.png";
@@ -14,19 +19,17 @@ public class Player extends Entity {
     }
 
     @Override
-    public void update() {}
-
-    public void movePlayer(Direction direction){
-        if (direction == Direction.RIGHT) { // DROITE
+    public void update() {
+        if (Input.getKey(KeyCode.D)) {
             if (nextMove(position.x + 1, position.y)) position.x++;
         }
-        if (direction == Direction.LEFT) { // GAUCHE
+        if (Input.getKey(KeyCode.Q)) {
             if (nextMove(position.x - 1, position.y)) position.x--;
         }
-        if (direction == Direction.UP) { // HAUT
+        if (Input.getKey(KeyCode.Z)) {
             if (nextMove(position.x, position.y - 1)) position.y--;
         }
-        if (direction == Direction.DOWN) { // BAS
+        if (Input.getKey(KeyCode.S)) {
             if (nextMove(position.x, position.y + 1)) position.y++;
         }
     }
