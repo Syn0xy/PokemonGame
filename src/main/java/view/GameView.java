@@ -30,10 +30,10 @@ public class GameView extends View implements Observer {
     protected void init() {
         addKeyListener(Input.getInstance());
         setScene(new LoadingScene());
-        // GameScene gameScene = new GameScene();
-        // setScene(new GameCanvas(gameScene));
-        // gameScene.attach(this);
-        // gameScene.start();
+        GameScene gameScene = new GameScene();
+        setScene(new GameCanvas(gameScene));
+        gameScene.attach(this);
+        gameScene.start();
     }
 
     @Override

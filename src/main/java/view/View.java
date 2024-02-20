@@ -45,7 +45,9 @@ public abstract class View extends JFrame {
     
     @Override
     public void paint(Graphics g) {
-        currentScene.paint(g);
+        if(currentScene != null){
+            currentScene.paint(g);
+        }
     }
 
     protected void setScene(Scene scene){

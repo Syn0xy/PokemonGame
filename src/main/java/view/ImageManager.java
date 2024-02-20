@@ -14,6 +14,8 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+import model.util.BufferedWriter;
+
 public class ImageManager {
 
     private static final String SERPARATOR = File.separator;

@@ -1,4 +1,4 @@
-package view;
+package model.util;
 
 import java.io.StringWriter;
 
@@ -10,7 +10,7 @@ public class BufferedWriter extends StringWriter {
 
     private LoadingScene observer;
 
-    public void attach(LoadingScene observer){
+    public BufferedWriter(LoadingScene observer){
         this.observer = observer;
     }
 
