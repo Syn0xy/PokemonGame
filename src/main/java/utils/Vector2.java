@@ -1,4 +1,4 @@
-package model.util;
+package utils;
 
 public class Vector2 {
     
@@ -6,20 +6,22 @@ public class Vector2 {
     
     public int y;
     
-    public Vector2(int x, int y) {
+    public Vector2(final int x, final int y) {
         this.x = x;
         this.y = y;
     }
     
-    public double distance(Vector2 vec2){
-        return Math.sqrt(
-            Math.pow(vec2.x - x, 2) +
-            Math.pow(vec2.y - y, 2)
-        );
+    public double distance(final Vector2 vec2) {
+        final int dx = vec2.x - this.x;
+        final int dy = vec2.y - this.y;
+        return Math.sqrt(dx * dx + dy * dy);
     }
     
-    public Vector2 multiply(int m){
-        return new Vector2(x * m, y * m);
+    public Vector2 multiply(final int m) {
+        return new Vector2(
+            this.x * m,
+            this.y * m
+        );
     }
     
     @Override
@@ -32,14 +34,14 @@ public class Vector2 {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Vector2 other = (Vector2) obj;
+        final Vector2 other = (Vector2) obj;
         if (x != other.x)
             return false;
         if (y != other.y)

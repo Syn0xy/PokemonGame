@@ -9,10 +9,9 @@ import java.util.Map;
 import java.util.Random;
 
 import model.entity.Entity;
-import model.entity.Pokemon;
 import model.entity.PokemonEntity;
 import model.entity.PokemonGenerator;
-import model.util.Vector2;
+import utils.Vector2;
 import view.Tile;
 
 public class TerrainChunk {
@@ -124,8 +123,11 @@ public class TerrainChunk {
         for(int y = 0; y < tilemaps.length; y++){
             for(int x = 0; x < tilemaps[y].length; x++){
                 if(tilemaps[y][x].getBlock() == Block.LAND && random.nextDouble() > 0.99){
-                    Pokemon pokemon = PokemonGenerator.getInstance().getPokemon();
-                    entities.add(new PokemonEntity(pokemon, getPostionX(x), getPostionY(y)));
+                    this.entities.add(new PokemonEntity(
+                        PokemonGenerator.getRandom(),
+                        getPostionX(x),
+                        getPostionY(y)
+                    ));
                 }
             }
         }

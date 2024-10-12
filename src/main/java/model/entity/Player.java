@@ -1,7 +1,5 @@
 package model.entity;
 
-import java.awt.event.KeyEvent;
-
 import model.input.Input;
 import model.input.KeyCode;
 

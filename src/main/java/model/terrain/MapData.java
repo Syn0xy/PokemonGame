@@ -4,8 +4,8 @@ import static model.terrain.EndlessTerrain.biomeSize;
 import static model.terrain.EndlessTerrain.chunkSize;
 import static model.terrain.EndlessTerrain.noiseSize;
 
-import model.util.SimplexNoise;
-import model.util.Vector2;;
+import utils.SimplexNoise;
+import utils.Vector2;
 
 public class MapData {
     private Vector2 position;

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import model.entity.Entity;
-import model.util.Vector2;
+import utils.Vector2;
 
 import java.lang.Math;
 
@@ -23,16 +23,16 @@ public class EndlessTerrain {
 
     private Vector2 viewerPositionOld;
     
-    private Map<Vector2, TerrainChunk> terrainChunks;
-    private List<TerrainChunk> terrainChunksVisible;
+    private Map<Vector2, TerrainChunk> chunks;
+    private List<TerrainChunk> visibleChunks;
     private List<Entity> entities;
 
     public EndlessTerrain(Vector2 viewerPosition, List<Entity> entities){
         this.viewerPosition = viewerPosition;
         this.viewerPositionOld = new Vector2(viewerPosition.x, viewerPosition.y);
         this.entities = entities;
-        terrainChunks = new HashMap<Vector2, TerrainChunk>();
-        terrainChunksVisible = new ArrayList<TerrainChunk>();
+        chunks = new HashMap<>();
+        visibleChunks = new ArrayList<>();
 
         chunksVisibleInViewDst = Math.round(maxViewDst / chunkSize);
         viewerMoveTresholdForChunkUpdate = (int)(Math.sqrt(chunkSize * chunkSize * 2))/4;
@@ -40,12 +40,12 @@ public class EndlessTerrain {
         updateVisibleChunks();
     }
 
-    public Map<Vector2, TerrainChunk> getTerrainChunks() {
-        return terrainChunks;
+    public Map<Vector2, TerrainChunk> getChunks() {
+        return chunks;
     }
 
-    public List<TerrainChunk> getTerrainChunksVisible() {
-        return terrainChunksVisible;
+    public List<TerrainChunk> getVisibleChunks() {
+        return visibleChunks;
     }
 
     public void updateChunk(){
@@ -65,19 +65,19 @@ public class EndlessTerrain {
             for (int xOffset = -chunksVisibleInViewDst; xOffset <= chunksVisibleInViewDst; xOffset++){
                 Vector2 viewedChunkCoord = new Vector2(currentChunkCoordX + xOffset, currentChunkCoordY + yOffset);
 
-                if(!terrainChunks.containsKey(viewedChunkCoord)){
-                    terrainChunks.put(viewedChunkCoord, new TerrainChunk(viewedChunkCoord, entities));
+                if(!chunks.containsKey(viewedChunkCoord)){
+                    chunks.put(viewedChunkCoord, new TerrainChunk(viewedChunkCoord, entities));
                 }
                 
-                TerrainChunk chunk = terrainChunks.get(viewedChunkCoord);
+                TerrainChunk chunk = chunks.get(viewedChunkCoord);
                 if(chunk.isVisible(viewerPosition)){
-                    terrainChunksVisible.add(chunk);
+                    visibleChunks.add(chunk);
                 }
             }
         }
     }
 
     public void unvisibleAllTerrainChunk(){
-        terrainChunksVisible.clear();
+        visibleChunks.clear();
     }
 }

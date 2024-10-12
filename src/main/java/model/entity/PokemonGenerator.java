@@ -1,40 +1,70 @@
 package model.entity;
 
 import java.awt.Image;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import view.ImageManager;
 
 public class PokemonGenerator {
+
+    //#region
     
     private static PokemonGenerator singleton;
 
-    private Map<String, Pokemon> pokemons;
-
-    public static final PokemonGenerator getInstance(){
-        if(singleton == null) singleton = new PokemonGenerator();
-        return singleton;
+    private static PokemonGenerator getInstance() {
+        if (PokemonGenerator.singleton == null) {
+            PokemonGenerator.singleton = new PokemonGenerator();
+        }
+        return PokemonGenerator.singleton;
     }
 
-    private PokemonGenerator(){
-        this.pokemons = new HashMap<>();
-        for(Entry<String, Image> entry : ImageManager.getPokemonImages().entrySet()){
-            String name = entry.getKey();
-            Pokemon pokemon = new Pokemon(entry.getValue(), name);
-            pokemons.put(name, pokemon);
+    //#endregion
+    
+    private final Map<String, Pokemon> indexedPokemons;
+
+    private final Collection<Pokemon> pokemons;
+    
+    private PokemonGenerator() {
+        this.indexedPokemons = new HashMap<>();
+        this.pokemons = this.indexedPokemons.values();
+        this.generate();
+    }
+
+    private Pokemon getPokemon(final String pokemonName) {
+        return this.indexedPokemons.getOrDefault(pokemonName, null);
+    }
+    
+    private Pokemon getRandomPokemon() {
+        final int random = (int) (this.pokemons.size() * Math.random());
+        return this.pokemons
+            .stream()
+            .skip(random)
+            .findFirst()
+            .orElse(null);
+    }
+
+    private void generate() {
+        for (final Entry<String, Image> entry : ImageManager.getPokemonImages().entrySet()) {
+            this.generatePokemon(
+                entry.getKey(),
+                entry.getValue()
+            );
         }
     }
 
-    public Pokemon getPokemon(){
-        List<String> keySet = new ArrayList<>(pokemons.keySet());
-        return pokemons.get(keySet.get((int)(Math.random() * keySet.size())));
+    private void generatePokemon(final String pokemonName, final Image pokemonImage) {
+        this.indexedPokemons.putIfAbsent(pokemonName, new Pokemon(pokemonImage, pokemonName));
     }
 
-    public Pokemon getPokemon(String pokemonName){
-        return pokemons.get(pokemonName);
+    public static Pokemon get(final String pokemonName) {
+        return PokemonGenerator.getInstance().getPokemon(pokemonName);
     }
+
+    public static Pokemon getRandom() {
+        return PokemonGenerator.getInstance().getRandomPokemon();
+    }
+
 }

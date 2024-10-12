@@ -3,10 +3,6 @@ package view;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +10,7 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
-import model.util.BufferedWriter;
+import utils.BufferedWriter;
 
 public class ImageManager {
 

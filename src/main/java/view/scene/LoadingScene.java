@@ -3,7 +3,7 @@ package view.scene;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import model.util.BufferedWriter;
+import utils.BufferedWriter;
 import view.ImageManager;
 
 public class LoadingScene extends Scene {
@@ -17,18 +17,18 @@ public class LoadingScene extends Scene {
     }
 
     @Override
-    public void paint(Graphics g) {
+    public void paint(final Graphics g) {
         System.out.println("paint ?");
         clearScreen(g);
         g.drawString(bufferedWriter.toString(), 0, 0);
     }
 
-    public void clearScreen(Graphics g){
+    public void clearScreen(final Graphics g) {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, getWidth(), getHeight());
     }
     
-    public void update(String data) {
+    public void update(final String data) {
         repaint();
     }
 

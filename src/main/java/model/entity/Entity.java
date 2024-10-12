@@ -3,7 +3,7 @@ package model.entity;
 import java.awt.*;
 import javax.swing.ImageIcon;
 
-import model.util.Vector2;
+import utils.Vector2;
 
 public abstract class Entity {
     
